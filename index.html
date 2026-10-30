@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Sneka's Desk</title>
+  <meta name="description" content="Sneka Sorna: AI engineer and designer in Chennai. Portfolio, contact, LinkedIn, GitHub and more, all on one desk.">
+  <meta property="og:title" content="Sneka's Desk">
+  <meta property="og:description" content="Sneka Sorna: AI engineer and designer in Chennai. Portfolio, contact, LinkedIn, GitHub and more, all on one desk.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/webp" href="img/avatar-happy.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Caveat:wght@500;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="desk">
+  <div id="play" aria-hidden="true"></div>
+
+  <main id="col">
+    <header class="hero" id="hero">
+      <div class="sheet me">
+        <button class="avatar" id="avatar" type="button" aria-label="Tap Sneka's avatar to hear a thought">
+          <img id="avImg" src="img/avatar-happy.webp" alt="Illustrated Sneka sitting cross-legged, smiling" width="640" height="764" draggable="false">
+        </button>
+      </div>
+      <p class="tapme" id="tapme" aria-hidden="true">
+        <svg viewBox="0 0 34 24"><path d="M32 6 C24 2, 12 4, 5 14 M5 14 l1 -8 M5 14 l8 -1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>tap me
+      </p>
+      <div class="thought" id="thought" role="status" aria-live="polite"></div>
+      <div class="burst" id="burst" aria-hidden="true"></div>
+
+      <h1 class="name">Sneka Sorna
+        <svg class="ul" viewBox="0 0 400 18" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C80 4, 170 16, 250 8 S 360 6, 396 10" stroke="#d88180" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
+      </h1>
+      <p class="bio">AI engineer and designer. building smart, happy things for the internet.</p>
+    </header>
+
+    <div class="sticky" aria-hidden="true"><small>note to visitor</small>ok, here's everything ↓</div>
+
+    <nav class="links" id="links" aria-label="Links">
+      <a class="paper book" href="portfolio/index.html" style="--i:0">
+        <div class="book-in">
+          <div class="page" aria-hidden="true">
+            <h4>selected work</h4>
+            <div class="thumb"><img src="portfolio/img/projects/transcriber-final.webp" alt="" loading="lazy"><span>transcriber</span></div>
+            <div class="thumb"><img src="portfolio/img/projects/shehealth-final.webp" alt="" loading="lazy"><span>shehealth</span></div>
+          </div>
+          <div class="cover">
+            <div class="lbl"><span>sketchbook · vol. 1</span><b>portfolio</b></div>
+            <div class="row">
+              <span class="note">case studies, sketches &amp; things i shipped</span>
+              <span class="pill">open it
+                <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 L11 3 M5 3 h6 v6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+          <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </a>
+
+      <a class="paper env" href="portfolio/index.html#contact" style="--r:-1.2deg; --i:1">
+        <div class="vis"><span class="seal" aria-hidden="true">S</span></div>
+        <div class="t">
+          <h3><span class="hl">hire me / say hi</span><span class="tag">open</span></h3>
+          <p>fold me a paper plane on my desk. it lands right in my inbox.</p>
+        </div>
+        <svg class="go" viewBox="0 0 34 34" aria-hidden="true"><path d="M7 26 C12 18, 18 12, 27 8 M27 8 l-9 0 M27 8 l-2 9" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <a class="paper card" href="https://www.linkedin.com/in/snekasornaps" target="_blank" rel="noopener" style="--r:1deg; --i:2">
+        <svg class="clip" viewBox="0 0 44 38" aria-hidden="true"><path d="M12 21 L10 5 Q10 2.5 12.5 2.5 H15.5 Q18 2.5 17.8 5 L17 21 M27 21 L26.2 5 Q26 2.5 28.5 2.5 H31.5 Q34 2.5 34 5 L32 21" stroke="#e4ddd3" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 36 L8 18 h28 l4 18 z" fill="#2e1f15" stroke="#f0ead2" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 22 h24" stroke="#fff" stroke-opacity=".28" stroke-width="2" stroke-linecap="round"/></svg>
+        <div class="vis">in</div>
+        <div class="t"><h3><span class="hl">linkedin</span></h3><p>the professional me. very polite.</p></div>
+        <svg class="go" viewBox="0 0 34 34" aria-hidden="true"><path d="M7 26 C12 18, 18 12, 27 8 M27 8 l-9 0 M27 8 l-2 9" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <a class="paper strip" href="https://github.com/sneka-06" target="_blank" rel="noopener" style="--r:-.6deg; --i:3">
+        <div class="vis"><svg viewBox="0 0 62 62" aria-hidden="true"><rect x="6" y="10" width="50" height="40" rx="6" fill="#2e1f15"/><path d="M18 24 l-6 6 l6 6 M44 24 l6 6 l-6 6 M34 20 l-6 20" stroke="#dde5b6" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="t"><h3><span class="hl">github</span></h3><p class="code"><b>const</b> sneka = { codes: true, sleeps: "sometimes" }<span class="caret"></span></p></div>
+        <svg class="go" viewBox="0 0 34 34" aria-hidden="true"><path d="M7 26 C12 18, 18 12, 27 8 M27 8 l-9 0 M27 8 l-2 9" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <a class="paper pola" href="https://www.instagram.com/__.snekaa.__" target="_blank" rel="noopener" style="--r:1.6deg; --i:4">
+        <span class="pin" aria-hidden="true"></span>
+        <div class="vis"><svg viewBox="0 0 62 62" aria-hidden="true"><rect x="13" y="13" width="36" height="36" rx="10" stroke="#feeac7" stroke-width="3.5" fill="none"/><circle cx="31" cy="31" r="8.5" stroke="#feeac7" stroke-width="3.5" fill="none"/><circle cx="41.5" cy="20.5" r="2.4" fill="#feeac7"/></svg></div>
+        <div class="t"><h3><span class="hl">instagram</span></h3><p>process shots, desk setups, tiny wins.</p></div>
+        <svg class="go" viewBox="0 0 34 34" aria-hidden="true"><path d="M7 26 C12 18, 18 12, 27 8 M27 8 l-9 0 M27 8 l-2 9" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <!-- hidden until the Dribbble profile is live: remove "hidden" to bring the card back -->
+      <a class="paper idx" hidden href="https://dribbble.com/snekasornaps" target="_blank" rel="noopener" style="--r:-1deg; --i:5">
+        <div class="vis"><svg viewBox="0 0 62 62" aria-hidden="true"><circle cx="31" cy="31" r="21" fill="#f7b1b0" stroke="#2e1f15" stroke-width="2.5"/><path d="M14 22 C26 26, 40 24, 49 18 M12 36 C26 30, 40 34, 46 46 M22 12 C30 22, 38 36, 38 51" stroke="#2e1f15" stroke-width="2.2" fill="none"/></svg></div>
+        <div class="t"><h3><span class="hl">dribbble</span><span class="tag">wip</span></h3><p>ui shots and little experiments.</p></div>
+        <svg class="go" viewBox="0 0 34 34" aria-hidden="true"><path d="M7 26 C12 18, 18 12, 27 8 M27 8 l-9 0 M27 8 l-2 9" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </nav>
+
+    <p class="hint">psst. everything on this desk can be thrown.</p>
+
+    <section class="todo" id="todo" aria-label="Visitor to-do list">
+      <span class="tape" aria-hidden="true"></span>
+      <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+      <h2>today's to-do <small id="date"></small></h2>
+      <ul>
+        <li data-k="visit" class="done"><span class="box"><svg viewBox="0 0 30 30"><path d="M5 16 L12 23 L27 4" stroke="#d88180" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">stop by sneka's desk</span></li>
+        <li data-k="throw"><span class="box"><svg viewBox="0 0 30 30"><path d="M5 16 L12 23 L27 4" stroke="#d88180" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">throw something off her desk</span></li>
+        <li data-k="doodle"><span class="box"><svg viewBox="0 0 30 30"><path d="M5 16 L12 23 L27 4" stroke="#d88180" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">doodle on the desk</span></li>
+        <li data-k="avatar"><span class="box"><svg viewBox="0 0 30 30"><path d="M5 16 L12 23 L27 4" stroke="#d88180" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">bother sneka (tap her)</span></li>
+        <li data-k="lamp"><span class="box"><svg viewBox="0 0 30 30"><path d="M5 16 L12 23 L27 4" stroke="#d88180" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">pull the lamp cord</span></li>
+      </ul>
+      <p class="tally"><span>thrown: <b id="cThrow">0</b></span><span>doodles: <b id="cDoodle">0</b></span><span>bothered: <b id="cAvatar">0</b></span></p>
+      <div class="stamp" id="stamp" aria-hidden="true">certified<br>desk menace<small id="stampDate"></small></div>
+    </section>
+
+    <footer id="foot">made at this desk by sneka<span>© 2026 · sneka sorna</span></footer>
+  </main>
+</div>
+
+<canvas id="ink" aria-hidden="true"></canvas>
+<div id="night" aria-hidden="true"></div>
+
+<div class="lamp" id="lamp">
+  <span class="cord"></span>
+  <button type="button" id="lampBtn" aria-label="Pull the lamp cord to switch day and night" aria-pressed="false">
+    <svg viewBox="0 0 30 42" aria-hidden="true"><rect x="13" y="0" width="4" height="10" fill="#8f8170"/><path d="M8 12 h14 l4 22 a11 8 0 0 1 -22 0 z" fill="#cad182" stroke="#6c584c" stroke-width="1.5"/><path d="M11 18 l-1.5 12" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <span class="lbl">pull me</span>
+</div>
+
+<button class="tool" id="doodleBtn" type="button" aria-pressed="false">
+  <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17 l2 -6 l9 -9 l4 4 l-9 9 z" fill="#cad182" stroke="#2e1f15" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 17 l2 -6 l4 4 z" fill="#a98467"/></svg>
+  <span id="doodleLbl">doodle</span>
+</button>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  /* ---------- toast ---------- */
+  const toastEl = $('#toast'); let toastT;
+  const toast = msg => { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 2200); };
+
+  /* ---------- to-do ---------- */
+  const counts = { throw: 0, doodle: 0, avatar: 0 };
+  const done = new Set(['visit']);
+  const d = new Date();
+  $('#date').textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  $('#stampDate').textContent = d.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  function tick(k) {
+    if (counts[k] !== undefined) { counts[k]++; const el = $('#c' + k[0].toUpperCase() + k.slice(1)); if (el) el.textContent = counts[k]; }
+    if (done.has(k)) return;
+    done.add(k);
+    const li = document.querySelector(`.todo li[data-k="${k}"]`); if (li) li.classList.add('done');
+    if (done.size === 5) setTimeout(() => { $('#stamp').classList.add('on'); toast('all done. you are officially a desk menace.'); navigator.vibrate?.([10, 40, 20]); }, 650);
+  }
+
+  /* ---------- avatar ---------- */
+  const faces = ['wow', 'think', 'happy', 'happy', 'wow', 'happy', 'think', 'happy'];
+  ['happy', 'think', 'wow'].forEach(k => { const i = new Image(); i.src = `img/avatar-${k}.webp`; });
+  const lines = ['Hey, you! Yes, you. 👀', 'Wait… I have an idea!', "Let's make something cool today.", 'Tiny steps, big dreams. ✨', 'Oops, I did it again!', 'Currently running on coffee ☕', 'What if we tried something different?', 'Stay a little curious, okay? 💛'];
+  let li = 0, thoughtT;
+  const avatar = $('#avatar'), thought = $('#thought'), burst = $('#burst');
+  // the bubble lives on the desk's top layer so thrown objects can never cover it
+  $('#desk').appendChild(thought);
+  function placeThought() {
+    const ar = avatar.getBoundingClientRect(), dr = $('#desk').getBoundingClientRect(), w = thought.offsetWidth;
+    const small = innerWidth < 900;
+    const h = thought.offsetHeight;
+    // keep clear of the face: beside the head on wide screens, above the head on phones
+    const x = small ? Math.min(dr.width - w - 10, ar.left - dr.left + ar.width / 2 + 6) : ar.right - dr.left - 24;
+    const y = small ? Math.max(6, ar.top - dr.top - h - 14) : ar.top - dr.top - 18;
+    thought.style.left = Math.max(10, x) + 'px'; thought.style.top = y + 'px';
+  }
+  addEventListener('resize', () => { if (thought.classList.contains('show')) placeThought(); });
+  const doodles = [
+    c => `<path d="M0 -9 L2.6 -2.6 L9 0 L2.6 2.6 L0 9 L-2.6 2.6 L-9 0 L-2.6 -2.6 Z" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round"/>`,
+    c => `<path d="M0 7 C-10 0, -7 -9, 0 -4 C7 -9, 10 0, 0 7 Z" fill="${c}"/>`,
+    c => `<path d="M0 0 c3 -2 5 2 2 5 c-4 3 -9 -2 -6 -7 c4 -6 13 -3 12 4" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round"/>`,
+    c => `<path d="M-4 6 h8 M-3 9 h6 M-5 3 C-10 -2, -6 -10, 0 -10 C6 -10, 10 -2, 5 3 Z" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+    c => `<path d="M-8 0 h16 M0 -8 v16" stroke="${c}" stroke-width="2.4" stroke-linecap="round"/>`
+  ];
+  const cols = ['#d88180', '#feeac7', '#dde5b6', '#f7b1b0', '#cad182'];
+  avatar.addEventListener('click', () => {
+    const n = li++ % lines.length;
+    thought.textContent = lines[n]; $('#avImg').src = `img/avatar-${faces[n]}.webp`;
+    placeThought(); thought.classList.add('show'); clearTimeout(thoughtT); thoughtT = setTimeout(() => { thought.classList.remove('show'); $('#avImg').src = 'img/avatar-happy.webp'; }, 2800);
+    $('#tapme').classList.add('gone');
+    tick('avatar'); navigator.vibrate?.(8);
+    if (reduce) return;
+    avatar.animate([{ transform: 'scale(1,1)' }, { transform: 'scale(1.07,.9) translateY(6px)' }, { transform: 'scale(.96,1.06) translateY(-4px)' }, { transform: 'scale(1,1)' }], { duration: 480, easing: 'cubic-bezier(.3,.7,.4,1)' });
+    for (let i = 0; i < 9; i++) {
+      const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      s.setAttribute('width', 1); s.setAttribute('height', 1);
+      s.innerHTML = doodles[i % doodles.length](cols[(i + li) % cols.length]);
+      burst.appendChild(s);
+      const ang = rand(-Math.PI * .95, -Math.PI * .05), dist = rand(80, 150), sc = rand(1, 1.8);
+      s.animate([
+        { transform: `translate(0,0) scale(.3) rotate(0deg)`, opacity: 1 },
+        { transform: `translate(${Math.cos(ang) * dist}px, ${Math.sin(ang) * dist}px) scale(${sc}) rotate(${rand(-200, 200)}deg)`, opacity: 1, offset: .65 },
+        { transform: `translate(${Math.cos(ang) * dist * 1.1}px, ${Math.sin(ang) * dist + 40}px) scale(${sc * .8}) rotate(${rand(-260, 260)}deg)`, opacity: 0 }
+      ], { duration: rand(800, 1100), delay: i * 22, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'both' }).onfinish = () => s.remove();
+    }
+  });
+
+  /* ---------- desk objects (custom physics) ---------- */
+  const SVG = {
+    croissant: `<img src="img/croissant.webp" alt="" draggable="false">`,
+    bow: `<img src="img/bow.webp" alt="" draggable="false">`,
+    star: `<img src="img/star.webp" alt="" draggable="false">`,
+    lily: `<img src="img/lily.webp" alt="" draggable="false">`,
+    teddy: `<img src="img/teddy.webp" alt="" draggable="false">`
+  };
+  // fr = friction per frame (lower = heavier), b = bounce.
+  // d / m = [x, y, rotation]: the object's centre, measured from the avatar's centre in avatar-widths (desktop / phone).
+  const OBJ = [
+    { id: 'teddy', w: 130, h: 148, fr: .9, b: .35, say: 'my desk buddy 🧸', d: [1.4, -.28, 6], m: [-.66, -.14, -6] },
+    { id: 'croissant', w: 160, h: 113, fr: .92, b: .4, say: 'fancy croissant, fancy day 🥐', d: [1.3, .72, -8], m: [.62, .3, -8] },
+    { id: 'lily', w: 120, h: 111, fr: .95, b: .5, say: 'lilies make everything prettier', d: [-1.3, -.1, -10], m: [.66, -.2, -10] },
+    { id: 'bow', w: 120, h: 71, fr: .96, b: .6, say: "everything's better with a bow 🎀", d: [-.75, -.62, -8], m: [-.58, -.84, -8] },
+    { id: 'star', w: 90, h: 91, fr: .95, b: .7, say: "you're doing great ⭐", d: [-1.2, .78, 12], m: [.22, -.88, 12] }
+  ];
+
+  const desk = $('#desk'), play = $('#play'), avatarEl = $('#avatar');
+  let W = 0, H = 0, mobile = false, sc = 1, z = 31, raf = 0, last = 0;
+  const S = OBJ.map(o => {
+    const el = document.createElement('div');
+    el.className = 'obj';
+    el.innerHTML = SVG[o.id] + `<span class="say">${o.say}</span>`;
+    play.appendChild(el);
+    return { o, el, w: o.w, h: o.h, x: 0, y: 0, a: 0, vx: 0, vy: 0, va: 0, s: 1, moved: false, drag: false, boop: 0 };
+  });
+
+  function home(st) {
+    const ar = avatarEl.getBoundingClientRect(), dr = desk.getBoundingClientRect();
+    const A = ar.width, cx = ar.left - dr.left + A / 2, cy = ar.top - dr.top + ar.height / 2;
+    const [fx, fy, r] = mobile ? st.o.m : st.o.d;
+    st.a = r; st.x = cx + fx * A - st.w / 2; st.y = cy + fy * A - st.h / 2;
+  }
+  const clamp = st => {
+    st.x = Math.min(W - st.w * .55, Math.max(-st.w * .45, st.x));
+    st.y = Math.min(H - st.h * .6, Math.max(0, st.y));
+  };
+  const paint = st => { st.el.style.transform = `translate3d(${st.x}px,${st.y}px,0) rotate(${st.a}deg) scale(${st.s})`; };
+
+  function layout() {
+    W = desk.offsetWidth; H = desk.offsetHeight;
+    mobile = W < 900; sc = !mobile ? 1 : W < 600 ? .55 : .72;
+    S.forEach(st => {
+      st.w = st.o.w * sc; st.h = st.o.h * sc;
+      st.el.style.width = st.w + 'px'; st.el.style.height = st.h + 'px';
+      if (!st.moved) home(st);
+      clamp(st); paint(st);
+    });
+  }
+  $('#avImg').addEventListener('load', layout);
+
+  function step(t) {
+    const k = Math.min(2.5, (t - (last || t - 16.7)) / 16.7); last = t;
+    let busy = false;
+    S.forEach(st => {
+      const target = st.drag ? 1.08 : 1 + st.boop;
+      st.s += (target - st.s) * Math.min(1, .3 * k);
+      st.boop *= Math.pow(.8, k);
+      if (Math.abs(target - st.s) > .002 || st.boop > .002) busy = true;
+      if (st.drag) { busy = true; paint(st); return; }
+      const o = st.o;
+      st.x += st.vx * k; st.y += st.vy * k; st.a += st.va * k;
+      const f = Math.pow(o.fr, k);
+      st.vx *= f; st.vy *= f; st.va *= Math.pow(.9, k);
+      const minX = -st.w * .45, maxX = W - st.w * .55, maxY = H - st.h * .6;
+      if (st.x < minX) { st.x = minX; st.vx = Math.abs(st.vx) * o.b; st.va += st.vy * .3; }
+      if (st.x > maxX) { st.x = maxX; st.vx = -Math.abs(st.vx) * o.b; st.va -= st.vy * .3; }
+      if (st.y < 0) { st.y = 0; st.vy = Math.abs(st.vy) * o.b; st.va -= st.vx * .3; }
+      if (st.y > maxY) { st.y = maxY; st.vy = -Math.abs(st.vy) * o.b; st.va += st.vx * .3; }
+      if (Math.abs(st.vx) > .05 || Math.abs(st.vy) > .05 || Math.abs(st.va) > .05) busy = true;
+      paint(st);
+    });
+    raf = busy ? requestAnimationFrame(step) : 0;
+    if (!busy) last = 0;
+  }
+  const kick = () => { if (!raf) raf = requestAnimationFrame(step); };
+
+  S.forEach(st => {
+    const el = st.el; let pid = -1, ox = 0, oy = 0, sx = 0, sy = 0, t0 = 0, moved = 0, hist = [], sayT;
+    const pos = e => { const r = desk.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top, t: e.timeStamp }; };
+    const talk = () => { el.classList.add('talk'); clearTimeout(sayT); sayT = setTimeout(() => el.classList.remove('talk'), 1700); };
+    el.addEventListener('pointerdown', e => {
+      if (pid !== -1) return;
+      e.preventDefault(); pid = e.pointerId; el.setPointerCapture(pid);
+      const p = pos(e); ox = p.x - st.x; oy = p.y - st.y; sx = p.x; sy = p.y; t0 = e.timeStamp; moved = 0; hist = [p];
+      st.drag = true; st.vx = st.vy = 0; el.style.zIndex = ++z; el.classList.add('drag'); kick();
+    });
+    el.addEventListener('pointermove', e => {
+      if (e.pointerId !== pid) return;
+      const p = pos(e); moved = Math.max(moved, Math.hypot(p.x - sx, p.y - sy));
+      const nx = p.x - ox, ny = p.y - oy;
+      st.a += Math.max(-1.6, Math.min(1.6, (nx - st.x) * .14));
+      st.x = nx; st.y = ny; clamp(st);
+      hist.push(p); while (hist.length > 2 && p.t - hist[0].t > 90) hist.shift();
+    });
+    const up = e => {
+      if (e.pointerId !== pid) return;
+      pid = -1; st.drag = false; el.classList.remove('drag');
+      if (moved < 6 && e.timeStamp - t0 < 350) {
+        st.boop = .18; st.va = (Math.random() < .5 ? -1 : 1) * 7; talk();
+      } else {
+        const a = hist[0], b = hist[hist.length - 1], dt = Math.max(16, b.t - a.t), cap = v => Math.max(-40, Math.min(40, v));
+        st.vx = cap((b.x - a.x) / dt * 16.7); st.vy = cap((b.y - a.y) / dt * 16.7); st.va = st.vx * .25;
+        st.moved = true;
+        if (Math.hypot(st.vx, st.vy) > 4) { tick('throw'); navigator.vibrate?.(6); if (st.o.id === 'teddy') { el.querySelector('.say').textContent = 'hey! be nice to teddy!'; talk(); setTimeout(() => el.querySelector('.say').textContent = st.o.say, 1800); } }
+      }
+      kick();
+    };
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+  });
+
+  new ResizeObserver(layout).observe(desk);
+  layout();
+  document.fonts?.ready.then(layout);
+  if (!reduce) S.forEach((st, i) => st.el.animate([{ opacity: 0, translate: '0 -24px' }, { opacity: 1, translate: '0 0' }], { duration: 500, delay: 380 + i * 60, easing: 'cubic-bezier(.22,1.45,.42,1)', fill: 'backwards' }));
+
+  /* ---------- cursor trail (sparkles by day, fireflies by night) + marker doodles ---------- */
+  const cv = $('#ink'), ctx = cv.getContext('2d');
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const size = () => { cv.width = Math.round(innerWidth * dpr); cv.height = Math.round(innerHeight * dpr); };
+  size(); addEventListener('resize', size);
+  const strokes = [], bits = []; let cur = null, prev = null, inkRaf = 0, doodleMode = false;
+  const P = (e) => ({ x: e.clientX + scrollX, y: e.clientY + scrollY, t: performance.now() });
+  const isNight = () => document.body.classList.contains('night');
+  const SPARK = ['#cdb9e6', '#f1c86b', '#f7b1b0', '#fffaf0', '#dde5b6'];
+  function spawn(x, y, burst) {
+    const night = isNight(), now = performance.now();
+    const n = burst ? (night ? 5 : 7) : (night ? 1 : (Math.random() < .5 ? 1 : 2));
+    for (let i = 0; i < n; i++) {
+      if (night) bits.push({ k: 'fly', x: x + rand(-6, 6), y: y + rand(-6, 6), born: now, life: rand(1500, 2400), r: rand(1.6, 3), vx: rand(-.25, .25) * (burst ? 3 : 1), vy: rand(-.6, -.2) * (burst ? 2 : 1), ph: rand(0, 6.3) });
+      else bits.push({ k: 'spark', x: x + rand(-8, 8), y: y + rand(-8, 8), born: now, life: rand(850, 1250), s: rand(4, burst ? 11 : 8.5), c: SPARK[(Math.random() * SPARK.length) | 0], vx: rand(-.3, .3) * (burst ? 4 : 1), vy: rand(-.1, .35) + (burst ? rand(-1.2, .4) : 0), rot: rand(0, .8), ph: rand(0, 6.3) });
+    }
+    if (bits.length > 140) bits.splice(0, bits.length - 140);
+  }
+  function star4(x, y, sz) {
+    ctx.beginPath(); ctx.moveTo(x, y - sz);
+    ctx.quadraticCurveTo(x, y, x + sz, y); ctx.quadraticCurveTo(x, y, x, y + sz);
+    ctx.quadraticCurveTo(x, y, x - sz, y); ctx.quadraticCurveTo(x, y, x, y - sz); ctx.fill();
+  }
+  function drawInk() {
+    const now = performance.now();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    const night = isNight();
+    // marker doodles
+    for (let i = strokes.length - 1; i >= 0; i--) {
+      const st = strokes[i], life = 4200, pts = st.pts;
+      while (pts.length && now - pts[0].t > life && st !== cur) pts.shift();
+      if (!pts.length) { if (st !== cur) strokes.splice(i, 1); continue; }
+      ctx.strokeStyle = night ? '#cad182' : '#d88180'; ctx.lineWidth = 5;
+      for (let j = 1; j < pts.length; j++) {
+        const a = pts[j - 1], b = pts[j], age = (now - b.t) / life;
+        ctx.globalAlpha = Math.max(0, 1 - age * age) * .9;
+        ctx.beginPath(); ctx.moveTo(a.x - scrollX, a.y - scrollY); ctx.lineTo(b.x - scrollX, b.y - scrollY); ctx.stroke();
+      }
+    }
+    // sparkles + fireflies
+    for (let i = bits.length - 1; i >= 0; i--) {
+      const q = bits[i], t = (now - q.born) / q.life;
+      if (t >= 1) { bits.splice(i, 1); continue; }
+      q.x += q.vx; q.y += q.vy;
+      const sx = q.x - scrollX, sy = q.y - scrollY;
+      if (q.k === 'spark') {
+        q.vy += .012; q.vx *= .98;
+        const grow = Math.sin(Math.PI * Math.min(1, t * 1.15)) ** .6;
+        ctx.globalAlpha = (1 - t * t) * (.7 + .3 * Math.sin(now / 45 + q.ph));
+        ctx.fillStyle = q.c; ctx.shadowColor = q.c; ctx.shadowBlur = 6;
+        ctx.save(); ctx.translate(sx, sy); ctx.rotate(q.rot); star4(0, 0, q.s * grow); ctx.restore();
+      } else {
+        q.x += Math.sin(now / 260 + q.ph) * .3;
+        const fade = Math.min(1, t * 5) * (1 - t);
+        const blink = .5 + .5 * Math.sin(now / 170 + q.ph);
+        ctx.shadowBlur = 0;
+        const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, q.r * 6);
+        g.addColorStop(0, 'rgba(246,226,122,.55)'); g.addColorStop(1, 'rgba(246,226,122,0)');
+        ctx.globalAlpha = fade * (.35 + .65 * blink); ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(sx, sy, q.r * 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fff6c2'; ctx.beginPath(); ctx.arc(sx, sy, q.r, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+    inkRaf = (strokes.length || bits.length) ? requestAnimationFrame(drawInk) : 0;
+  }
+  const kickInk = () => { if (!inkRaf) inkRaf = requestAnimationFrame(drawInk); };
+  addEventListener('pointermove', e => {
+    document.documentElement.style.setProperty('--lx', e.clientX + 'px');
+    document.documentElement.style.setProperty('--ly', e.clientY + 'px');
+    if (cur && e.pointerId === cur.pid) { const p = P(e); const l = cur.pts[cur.pts.length - 1]; cur.len += Math.hypot(p.x - l.x, p.y - l.y); cur.pts.push(p); kickInk(); return; }
+    if (reduce || e.pointerType === 'touch' || S.some(s => s.drag)) return;
+    const p = P(e);
+    if (prev && Math.hypot(p.x - prev.x, p.y - prev.y) < (isNight() ? 26 : 14)) return;
+    prev = p; spawn(p.x, p.y, false); kickInk();
+  }, { passive: true });
+  // phones have no cursor: a small burst where you tap
+  addEventListener('pointerdown', e => {
+    if (reduce || e.pointerType !== 'touch' || doodleMode) return;
+    const p = P(e); spawn(p.x, p.y, true); kickInk();
+  }, { passive: true });
+  const blocked = t => t.closest('a, button, .obj, .paper, .sticky, .todo, .sheet, h1, p, .lamp, input');
+  addEventListener('pointerdown', e => {
+    const onCanvas = e.target === cv;
+    if (!onCanvas && (e.pointerType === 'touch' || blocked(e.target))) return;
+    if (!onCanvas && e.button !== 0) return;
+    e.preventDefault();
+    cur = { kind: 'marker', pts: [P(e)], len: 0, pid: e.pointerId }; strokes.push(cur); kickInk();
+  });
+  const endMarker = e => {
+    if (!cur || e.pointerId !== cur.pid) return;
+    if (cur.len > 60) tick('doodle');
+    cur = null; kickInk();
+  };
+  addEventListener('pointerup', endMarker); addEventListener('pointercancel', endMarker);
+  const dBtn = $('#doodleBtn');
+  dBtn.addEventListener('click', () => {
+    doodleMode = !doodleMode;
+    document.body.classList.toggle('doodling', doodleMode);
+    dBtn.setAttribute('aria-pressed', doodleMode);
+    $('#doodleLbl').textContent = doodleMode ? 'done' : 'doodle';
+    toast(doodleMode ? 'draw anywhere. ink fades in a few seconds.' : 'doodle mode off');
+  });
+  if (matchMedia('(hover: hover)').matches) setTimeout(() => toast('hold and drag on the desk to doodle'), 2600);
+
+  /* ---------- lamp cord ---------- */
+  const lamp = $('#lamp'), lampBtn = $('#lampBtn');
+  let lp = -1, ly0 = 0, pulled = 0;
+  const toggleNight = () => {
+    const on = document.body.classList.toggle('night');
+    lampBtn.setAttribute('aria-pressed', on);
+    if (!matchMedia('(hover: hover)').matches) { document.documentElement.style.setProperty('--lx', '50vw'); document.documentElement.style.setProperty('--ly', '28vh'); }
+    toast(on ? 'night shift. desk lamp on.' : 'good morning ☀️');
+    tick('lamp'); navigator.vibrate?.(12);
+  };
+  lampBtn.addEventListener('pointerdown', e => { lp = e.pointerId; lampBtn.setPointerCapture(lp); ly0 = e.clientY; pulled = 0; lamp.classList.add('pulling'); });
+  lampBtn.addEventListener('pointermove', e => {
+    if (e.pointerId !== lp) return;
+    pulled = Math.max(0, Math.min(70, e.clientY - ly0));
+    lampBtn.style.transform = `translateY(${pulled}px)`;
+  });
+  const lampUp = e => {
+    if (e.pointerId !== lp) return;
+    lp = -1; lamp.classList.remove('pulling'); lampBtn.style.transform = '';
+    if (pulled > 22) { toggleNight(); lampBtn.dataset.skip = '1'; }
+  };
+  lampBtn.addEventListener('pointerup', lampUp); lampBtn.addEventListener('pointercancel', lampUp);
+  lampBtn.addEventListener('click', () => {
+    if (lampBtn.dataset.skip) { delete lampBtn.dataset.skip; return; }
+    if (!reduce) lampBtn.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(34px)' }, { transform: 'translateY(-6px)' }, { transform: 'translateY(0)' }], { duration: 520, easing: 'ease-out' });
+    toggleNight();
+  });
+})();
+</script>
+
+</body></html>

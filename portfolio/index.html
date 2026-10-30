@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Sneka's Desk Portfolio</title>
+  <meta name="description" content="Sneka Sorna: AI engineer and designer in Chennai. AI products, designed and built from the first sketch to the shipped app.">
+  <meta property="og:title" content="Sneka's Desk Portfolio">
+  <meta property="og:description" content="Sneka Sorna: AI engineer and designer in Chennai. AI products, designed and built from the first sketch to the shipped app.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/webp" href="img/avatar-happy.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Caveat:wght@500;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="chip" id="backLink" href="../index.html">
+    <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M11 4 L6 9 L11 14" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>links
+  </a>
+</div>
+
+<main>
+  <section id="hero" class="wrap" aria-label="Introduction">
+    <div class="hero-in">
+      <div class="hero-me"><img id="heroImg" src="img/avatar-happy.webp" alt="Illustrated Sneka sitting cross-legged, smiling" width="640" height="764"></div>
+      <div class="hero-txt">
+        <p class="kicker">portfolio · 2026</p>
+        <h1 class="title">hi, i'm sneka. i <em>sketch</em> it, build it, ship it.</h1>
+        <p class="lede">I design and build AI products, from the first wireframe to the deployed app.</p>
+        <div class="open"><span class="open-l">open to</span><ul class="roles"><li>AI engineer</li><li>designer</li></ul></div>
+        <div class="cta">
+          <button class="btn big" type="button" data-open="projects" id="ctaLaptop">open my laptop
+            <svg width="16" height="16" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 11 L11 3 M5 3 h6 v6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <a class="btn ghost light" href="#desk">explore my desk ↓</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="desk" class="wrap" aria-labelledby="deskTitle">
+    <div class="sec-head">
+      <h2 id="deskTitle">my desk</h2>
+      <p>click anything. the laptop has the good stuff.</p>
+    </div>
+    <div class="mat" id="mat"></div>
+  </section>
+
+  <footer class="wrap">made at this desk by sneka<span>© 2026 · sneka sorna · chennai</span></footer>
+</main>
+
+<canvas id="ink" aria-hidden="true"></canvas>
+<div class="overlay" id="overlay" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const toastEl = $('#toast'); let toastT;
+const toast = m => { toastEl.textContent = m; toastEl.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 2400); };
+const X = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3 L13 13 M13 3 L3 13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
+const EMAIL = 'snekasornaps@gmail.com';
+/* contact form: paste your Formspree endpoint here (formspree.io → new form → e.g. 'https://formspree.io/f/abcdwxyz').
+   left empty, "say hi" opens the visitor's email app with the note already written. */
+const FORM_ENDPOINT = 'https://formspree.io/f/xppprlpw';
+/* guestbook: paste the firebaseConfig object from Firebase console → project settings → your apps → web app.
+   left null, the guestbook only works when the page is opened on claude.ai. */
+const FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyBUEuKRiSpWkU1YqctgCQF-0sYETxbz8OI',
+  authDomain: 'sneka-desk.firebaseapp.com',
+  projectId: 'sneka-desk',
+  storageBucket: 'sneka-desk.firebasestorage.app',
+  messagingSenderId: '542860720572',
+  appId: '1:542860720572:web:3659b3ad109905b06a13b9'
+};
+
+/* =============== data (from resume) =============== */
+const PROJECTS = [
+  { id: 'shehealth', name: 'SheHealth', kind: 'ML · full-stack', mock: 'dashboard', r: -1,
+    one: 'an ML-based prediction system for female health disorders.',
+    role: 'full-stack + ML',
+    problem: 'Checking risk for common female health conditions usually means separate tools, separate visits and a lot of guesswork. SheHealth puts five risk checks, a guided symptom flow and a shareable report in one place.',
+    built: [
+      'Architected a full-stack platform as microservices: 5 independent Flask backend services plus a React 18 frontend, each containerized with Docker and Docker Compose for isolated deployments.',
+      'Integrated 5 ML models (PCOS, anemia, thyroid, osteoporosis, breast cancer) built with scikit-learn, Random Forest and Joblib, each served as its own REST endpoint returning real-time risk probabilities.',
+      'Built an interactive diagnostic dashboard with Tailwind CSS, shadcn/ui and Framer Motion: a symptom-based triage wizard, health metric charts, and clinical PDF reports generated with jsPDF.'
+    ],
+    stack: { frontend: ['React 18', 'TypeScript', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Framer Motion', 'jsPDF'], backend: ['Python', 'Flask'], ml: ['scikit-learn', 'Random Forest', 'Joblib'], infra: ['Docker', 'Docker Compose'] },
+    log: ['docker compose up -d', '  ✓ pcos-service', '  ✓ anemia-service', '  ✓ thyroid-service', '  ✓ osteoporosis-service', '  ✓ breast-cancer-service', '  ✓ web (react 18)', 'all 6 containers running'] },
+  { id: 'transcriber', name: 'Transcriber', kind: 'real-time · web', mock: 'transcript', r: 1.2,
+    one: 'real-time audio and video transcription, word by word.',
+    role: 'full-stack',
+    problem: 'Live calls and recordings are hard to search, skim or quote. Transcriber turns speech into text as it happens, so you can follow along and jump to any moment.',
+    built: [
+      'Built a real-time transcription app on Deepgram’s Speech-to-Text API that handles both live audio streams and uploaded audio/video files.',
+      'Implemented WebSocket-based streaming to deliver low-latency, word-by-word transcripts in the browser.',
+      'Built a React frontend with playback controls and synchronized transcript highlighting for easier reading and navigation.',
+      'Carried the same architecture into TechBuddy’s live transcription feature during my internship at Trusty Bytes.'
+    ],
+    stack: { frontend: ['React'], backend: ['Node.js', 'REST APIs', 'WebSockets'], speech: ['Deepgram STT API'] },
+    log: ['node server.js', '  ✓ websocket listening', '  ✓ deepgram stream open', '  ▸ "hello, this is a live—"', 'streaming transcripts'] },
+  { id: 'farmhub', name: 'FarmHub', kind: 'mobile · marketplace', mock: 'mobile', r: -.8,
+    one: 'a marketplace app that connects farmers directly with consumers.',
+    role: 'mobile developer',
+    problem: 'Middlemen take a big cut between the people who grow food and the people who buy it. FarmHub lets farmers list produce and sell straight to buyers.',
+    built: [
+      'Built a cross-platform Flutter app for product listing, discovery and secure purchases, cutting out middlemen.',
+      'Used Firebase Authentication and Firestore for real-time inventory, order tracking and secure transaction flows.',
+      'Integrated Cloudinary for optimized image storage and delivery, reducing load times for product listings.'
+    ],
+    stack: { app: ['Flutter', 'Dart'], backend: ['Firebase Auth', 'Firestore', 'Firebase Storage'], media: ['Cloudinary'] },
+    log: ['flutter build apk --release', '  ✓ firebase configured', '  ✓ cloudinary images', '  ✓ build/app-release.apk', 'ready to install'] },
+  { id: 'heat-exchanger-ai', name: 'Heat Exchanger AI', kind: 'ML · engineering', mock: 'chart', r: 1,
+    one: 'the AI prediction module for an intelligent heat exchanger design platform.',
+    role: 'ML engineer',
+    problem: 'Designing a heat exchanger means running slow analytical models for every change in geometry. A trained model can predict thermal performance instantly, so designers can explore more options.',
+    built: [
+      'Trained and benchmarked Linear Regression, SVM and XGBoost on geometric and operational design parameters.',
+      'XGBoost performed best at predicting thermal outputs: NTU, effectiveness, heat duty, overall heat transfer coefficient and stress distribution, evaluated with R², MAE and RMSE.',
+      'Cross-validated the predictions against MATLAB analytical models and simulations to confirm engineering feasibility.'
+    ],
+    stack: { ml: ['Python', 'scikit-learn', 'XGBoost'], data: ['Pandas', 'NumPy'], validation: ['MATLAB'] },
+    log: ['python train.py --models lr svm xgb', '  · linear regression   done', '  · svm                 done', '  · xgboost             done  ← best', 'validated against matlab models'] }
+];
+
+/* =============== project details + media ===============
+   null = shows a labelled placeholder slot. For the demo, a video (media.video) or a live link (demo) is enough. */
+const DETAILS = {
+  shehealth: { year: 'April 2026', repo: 'https://github.com/sneka-06/SheHealth-AI', demo: null,
+    learned: 'Learned to integrate multiple ML models into a single platform using microservices and Docker.\nGained experience connecting React frontends with Flask APIs and presenting health predictions through interactive dashboards.',
+    media: { sketch: 'img/projects/shehealth-sketch.webp', final: 'img/projects/shehealth-final.webp', video: 'img/projects/Shehealth-AI.mp4' } },
+  transcriber: { year: 'May 2026', repo: 'https://github.com/sneka-06/Transcriber-Live', demo: null,
+    learned: 'Learned how WebSocket streaming enables low-latency, real-time speech transcription compared to waiting for complete recordings.\nGained experience integrating speech-to-text APIs with React to display live transcripts and synchronize text with audio playback.',
+    media: { sketch: 'img/projects/transcriber-sketch.webp', final: 'img/projects/transcriber-final.webp', video: 'img/projects/Transcriber.mp4' } },
+  farmhub: { year: 'April 2025', repo: 'https://github.com/sneka-06/FarmHub', demo: null,
+    learned: 'Learned to build cross-platform applications with Flutter and manage authentication, inventory, and order data using Firebase.\nGained experience optimizing product image delivery with Cloudinary to improve application performance.',
+    media: { sketch: 'img/projects/farmhub-sketch.webp', final: 'img/projects/farmhub-final.webp', video: null } },
+  'heat-exchanger-ai': { year: 'April 2026', repo: null, demo: null,
+    learned: 'Learned to compare machine learning algorithms such as Linear Regression, SVM, and XGBoost for engineering performance prediction.\nGained experience evaluating models using R², MAE, and RMSE and validating predictions against MATLAB simulations.',
+    media: { sketch: 'img/projects/heat-exchanger-ai-sketch.webp', final: 'img/projects/heat-exchanger-ai-final.webp', video: null } }
+};
+PROJECTS.forEach(p => Object.assign(p, DETAILS[p.id]));
+
+/* =============== desk objects =============== */
+const ART = {};
+ART.headphones = '<img src="img/headphones.webp" alt="" width="420" height="409">';
+const PHOTO = { laptop: [480, 305], notebook: [395, 480], sticky: [480, 435], glasses: [480, 150], beads: [480, 478] };
+Object.entries(PHOTO).forEach(([k, [w, h]]) => { ART[k] = `<img src="img/${k}.webp" alt="" width="${w}" height="${h}">`; });
+
+/* Sneka's own clock: everything date-related follows Chennai time, wherever the visitor is */
+const chennai = () => {
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).formatToParts(new Date()).map(x => [x.type, x.value]));
+  const m = new Date(`${p.month} 1, ${p.year}`).getMonth();
+  return { weekday: p.weekday, day: +p.day, monthName: p.month, month: m, year: +p.year, time: `${p.hour}:${p.minute}` };
+};
+ART.phone = `<span class="ph-wrap"><img src="img/phone.webp" alt="" width="255" height="480"><span class="lock" aria-hidden="true"><span class="ldate"></span><span class="ltime"></span></span></span>`;
+function tickClock() {
+  const c = chennai();
+  document.querySelectorAll('.ldate').forEach(n => n.textContent = `${c.weekday.slice(0, 3)}, ${c.day} ${c.monthName.slice(0, 3)}`);
+  document.querySelectorAll('.ltime').forEach(n => n.textContent = c.time);
+}
+function calendarSVG() {
+  const c = chennai(), first = new Date(Date.UTC(c.year, c.month, 1)).getUTCDay(), days = new Date(Date.UTC(c.year, c.month + 1, 0)).getUTCDate();
+  const holes = Array.from({ length: 7 }, (_, i) => `<rect x="${34 + i * 24}" y="26" width="9" height="9" rx="1.5" fill="#000"/>`).join('');
+  const heads = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map((d, i) => `<text x="${32 + i * 26}" y="94" text-anchor="middle">${d}</text>`).join('');
+  let cells = '';
+  for (let d = 1; d <= days; d++) {
+    const k = first + d - 1, x = 32 + (k % 7) * 26, y = 114 + Math.floor(k / 7) * 19;
+    if (d === c.day) cells += `<ellipse cx="${x}" cy="${y - 5}" rx="11" ry="9.5" transform="rotate(-12 ${x} ${y - 5})" fill="none" stroke="#d88180" stroke-width="2.2"/>`;
+    cells += `<text x="${x}" y="${y}" text-anchor="middle">${d}</text>`;
+  }
+  return `<svg viewBox="0 0 220 244"><defs><mask id="calHoles"><rect width="220" height="244" fill="#fff"/>${holes}</mask></defs>
+    <g transform="rotate(-5 110 122)">
+      <rect x="14" y="16" width="192" height="214" rx="3" fill="#ece2d3" mask="url(#calHoles)"/>
+      <rect x="14" y="16" width="192" height="214" rx="3" fill="none" stroke="#d6c8b2" stroke-width="1"/>
+      <image href="img/cal-flower.webp" x="-2" y="180" width="58" height="58"/>
+      <text x="110" y="70" text-anchor="middle" font-family="Bricolage Grotesque, Georgia, serif" font-weight="800" font-size="30" letter-spacing="-.5" fill="#3b2417">${c.monthName}</text>
+      <g font-family="Caveat, cursive" font-size="11" fill="#6c584c">${heads}</g>
+      <g font-family="Caveat, cursive" font-weight="700" font-size="15" fill="#3b2417">${cells}</g>
+    </g>
+    <image href="img/cal-clip.webp" x="158" y="0" width="29" height="58"/>
+  </svg>`;
+}
+ART.calendar = calendarSVG();
+const THINGS = [
+  { id: 'projects', art: 'laptop', label: 'my laptop', sub: 'projects · code editor', x: '32%', y: '10.5%', w: '30%', r: -1, main: true },
+  { id: 'guestbook', art: 'notebook', label: 'guestbook', sub: 'leave a note', x: '8%', y: '14%', w: '12%', r: -4, mw: '48%' },
+  { id: 'playlist', art: 'headphones', label: 'on repeat', sub: 'what i code to', x: '73.5%', y: '16%', w: '13%', r: 6, mw: '58%' },
+  { id: 'experience', art: 'sticky', label: 'experience', sub: "where i've been", x: '6.5%', y: '62%', w: '11%', r: 4, mw: '56%' },
+  { id: 'fuel', art: 'calendar', label: 'this month', sub: "what i'm up to", x: '26%', y: '61%', w: '10%', r: 0, mw: '54%' },
+  { id: 'about', art: 'glasses', label: 'about me', sub: 'the non-resume me', x: '42%', y: '66%', w: '16%', r: -3, mw: '90%' },
+  { id: 'contact', art: 'phone', label: 'say hi', sub: 'paper plane', x: '64%', y: '56%', w: '12%', r: 4, mw: '58%' },
+  { id: 'skills', art: 'beads', label: 'skills', sub: 'pick a bead', x: '81.5%', y: '61%', w: '11%', r: 0, mw: '56%' }
+];
+$('#mat').innerHTML = THINGS.map(t => `<button class="thing${t.main ? ' thing--main' : ''}" type="button" data-open="${t.id}" style="--x:${t.x};--y:${t.y};--w:${t.w};--r:${t.r}deg;${t.mw ? `--mw:${t.mw}` : ''}"><span class="art">${ART[t.art]}</span><span class="tag"><b>${t.label}</b><small>${t.sub}</small></span></button>`).join('');
+tickClock(); setInterval(tickClock, 20000);
+
+/* =============== hero avatar reactions =============== */
+const heroImg = $('#heroImg');
+['think', 'wow'].forEach(k => { const i = new Image(); i.src = `img/avatar-${k}.webp`; });
+const face = k => { heroImg.src = `img/avatar-${k}.webp`; };
+$('#ctaLaptop').addEventListener('pointerenter', () => face('think'));
+$('#ctaLaptop').addEventListener('pointerleave', () => face('happy'));
+heroImg.addEventListener('pointerenter', () => face('wow'));
+heroImg.addEventListener('pointerleave', () => face('happy'));
+
+/* =============== mock visuals for sketch → final =============== */
+const MOCKS = {
+  dashboard: [
+    ['rect', 0, 0, 120, 400, 0, '#2e1f15'], ['rect', 20, 30, 80, 12, 4, '#feeac7'], ['rect', 20, 70, 70, 8, 3, '#a98467'], ['rect', 20, 92, 60, 8, 3, '#a98467'], ['rect', 20, 114, 74, 8, 3, '#d88180'],
+    ['rect', 145, 26, 220, 18, 4, '#2e1f15'],
+    ['rect', 145, 64, 145, 84, 10, '#f7b1b0'], ['rect', 305, 64, 145, 84, 10, '#dde5b6'], ['rect', 465, 64, 150, 84, 10, '#cad182'],
+    ['rect', 160, 82, 60, 10, 3, '#2e1f15'], ['rect', 320, 82, 60, 10, 3, '#2e1f15'], ['rect', 480, 82, 60, 10, 3, '#2e1f15'],
+    ['rect', 160, 104, 40, 26, 4, '#d88180'], ['rect', 320, 104, 40, 26, 4, '#adc178'], ['rect', 480, 104, 40, 26, 4, '#a98467'],
+    ['rect', 145, 166, 300, 210, 10, '#ffffff'], ['path', 'M165 340 L215 300 L260 318 L310 250 L355 270 L425 200'], ['path', 'M165 356 H430'],
+    ['rect', 460, 166, 155, 210, 10, '#ffffff'], ['rect', 476, 190, 120, 12, 6, '#d88180'], ['rect', 476, 220, 90, 12, 6, '#adc178'], ['rect', 476, 250, 110, 12, 6, '#cad182'], ['rect', 476, 280, 60, 12, 6, '#f7b1b0'], ['rect', 476, 310, 100, 12, 6, '#a98467'], ['rect', 476, 340, 120, 22, 11, '#2e1f15']
+  ],
+  transcript: [
+    ['rect', 30, 24, 580, 120, 12, '#2e1f15'], ['circle', 80, 84, 24, '#d88180'], ['path', 'M74 72 L92 84 L74 96 Z'],
+    ...Array.from({ length: 26 }, (_, i) => ['rect', 130 + i * 18, 84 - (8 + ((i * 37) % 28)), 8, 2 * (8 + ((i * 37) % 28)), 3, i < 11 ? '#adc178' : '#6c584c']),
+    ['rect', 30, 166, 580, 210, 12, '#ffffff'],
+    ['rect', 54, 190, 60, 10, 4, '#a98467'], ['rect', 54, 210, 380, 12, 4, '#cfc6b6'], ['rect', 54, 230, 300, 12, 4, '#cfc6b6'],
+    ['rect', 54, 262, 60, 10, 4, '#a98467'], ['rect', 50, 278, 420, 22, 5, '#dde5b6'], ['rect', 54, 284, 400, 12, 4, '#2e1f15'],
+    ['rect', 54, 316, 60, 10, 4, '#a98467'], ['rect', 54, 336, 340, 12, 4, '#cfc6b6']
+  ],
+  mobile: [
+    ['rect', 90, 20, 190, 360, 26, '#2e1f15'], ['rect', 100, 32, 170, 336, 18, '#fbf7ea'],
+    ['rect', 116, 50, 90, 12, 4, '#2e1f15'], ['rect', 116, 74, 138, 22, 11, '#f0ead2'],
+    ['rect', 116, 110, 64, 80, 8, '#adc178'], ['rect', 190, 110, 64, 80, 8, '#d88180'], ['rect', 116, 200, 64, 80, 8, '#cad182'], ['rect', 190, 200, 64, 80, 8, '#f7b1b0'],
+    ['rect', 116, 296, 138, 30, 15, '#2e1f15'],
+    ['rect', 360, 20, 190, 360, 26, '#2e1f15'], ['rect', 370, 32, 170, 336, 18, '#fbf7ea'],
+    ['rect', 386, 50, 138, 120, 10, '#adc178'], ['rect', 386, 184, 100, 14, 4, '#2e1f15'], ['rect', 386, 206, 60, 12, 4, '#d88180'],
+    ['rect', 386, 230, 138, 10, 4, '#cfc6b6'], ['rect', 386, 248, 120, 10, 4, '#cfc6b6'], ['rect', 386, 300, 138, 34, 17, '#d88180']
+  ],
+  chart: [
+    ['rect', 30, 24, 400, 352, 10, '#ffffff'], ['path', 'M70 50 V330 H410'],
+    ['path', 'M72 300 L130 270 L190 240 L250 190 L310 160 L370 110 L405 90'],
+    ...Array.from({ length: 16 }, (_, i) => ['circle', 90 + i * 20, 290 - i * 13 + ((i * 29) % 34) - 17, 5, ['#d88180', '#adc178', '#a98467'][i % 3]]),
+    ['rect', 455, 24, 160, 352, 10, '#ffffff'],
+    ['rect', 472, 46, 80, 12, 4, '#2e1f15'],
+    ['rect', 472, 80, 126, 34, 6, '#f7b1b0'], ['rect', 472, 126, 126, 34, 6, '#dde5b6'], ['rect', 472, 172, 126, 34, 6, '#cad182'],
+    ['rect', 472, 230, 126, 10, 4, '#cfc6b6'], ['rect', 472, 250, 100, 10, 4, '#cfc6b6'], ['rect', 472, 270, 116, 10, 4, '#cfc6b6'], ['rect', 472, 330, 126, 28, 14, '#2e1f15']
+  ]
+};
+function mockSVG(kind, sketchy) {
+  const items = MOCKS[kind].map(([t, a, b, c, d, e, f]) => {
+    const st = sketchy ? `fill="none" stroke="#6c584c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"` : '';
+    if (t === 'rect') return `<rect x="${a}" y="${b}" width="${c}" height="${d}" rx="${e}" ${sketchy ? st + (c > 40 && d > 40 ? ' stroke-dasharray="6 4"' : '') : `fill="${f}"`}/>`;
+    if (t === 'circle') return `<circle cx="${a}" cy="${b}" r="${c}" ${sketchy ? st : `fill="${d}"`}/>`;
+    if (t === 'path') return `<path d="${a}" ${sketchy ? st : 'fill="none" stroke="#d88180" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"'}/>`;
+  }).join('');
+  const notes = sketchy ? `<g font-family="Caveat, cursive" font-size="20" fill="#d88180"><text x="420" y="396">← first idea, on paper</text></g>` : '';
+  return `<svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet">${items}${notes}</svg>`;
+}
+
+/* =============== overlay + panels =============== */
+const PANELS = {};
+const overlay = $('#overlay'); let lastFocus = null, current = null;
+function open(id, opts = {}) {
+  const build = PANELS[id]; if (!build) return;
+  lastFocus = document.activeElement;
+  overlay.innerHTML = ''; overlay.hidden = false; document.body.classList.add('locked');
+  const el = build(opts); el.classList.add('panel'); el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
+  el.insertAdjacentHTML('afterbegin', `<button class="x" type="button" aria-label="Close">${X}</button>`);
+  overlay.appendChild(el); current = { id, el };
+  $('.x', el).addEventListener('click', close);
+  (el.querySelector('[autofocus]') || $('.x', el)).focus({ preventScroll: true });
+  el._after?.();
+}
+function close() {
+  if (!current) return;
+  current.el._cleanup?.(); overlay.hidden = true; overlay.innerHTML = ''; current = null;
+  document.body.classList.remove('locked'); lastFocus?.focus?.({ preventScroll: true });
+}
+overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+addEventListener('keydown', e => {
+  if (!current) return;
+  if (e.key === 'Escape') { e.preventDefault(); close(); }
+  if (e.key === 'Tab') {
+    const f = [...current.el.querySelectorAll('button, a[href], input, textarea, [tabindex]:not([tabindex="-1"])')].filter(n => !n.disabled && n.offsetParent !== null);
+    if (!f.length) return; const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-open]'); if (!b || b.closest('.overlay')) return;
+  open(b.dataset.open, { project: b.dataset.project });
+});
+const node = html => { const d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstElementChild; };
+
+/* ---------- IDE ---------- */
+const ICON = {
+  folder: '<svg viewBox="0 0 14 14"><path d="M1 3.5 h4.5 l1.2 1.4 H13 V12 H1 Z" fill="#cad182"/></svg>',
+  md: '<svg viewBox="0 0 14 14"><rect x="1.5" y="1" width="11" height="12" rx="1.5" fill="#f0ead2"/><path d="M4 5 h6 M4 7.5 h6 M4 10 h4" stroke="#a98467" stroke-width="1.2"/></svg>',
+  sketch: '<svg viewBox="0 0 14 14"><path d="M2 12 L3 8.5 L10 1.5 L12.5 4 L5.5 11 Z" fill="#d88180"/></svg>'
+};
+
+/* =============== architecture diagrams (from the resume) =============== */
+const ARCH = {
+  shehealth: { wrap: 'docker compose · 6 containers', stages: [
+    { l: 'you', n: [{ t: 'symptom triage wizard', d: 'answer a few health questions', tags: ['React 18', 'TypeScript', 'Vite', 'Tailwind', 'shadcn/ui'] }] },
+    { l: 'api', n: ['PCOS', 'anemia', 'thyroid', 'osteoporosis', 'breast cancer'].map(x => ({ t: `${x} service`, tags: ['Flask'] })) },
+    { l: 'models', n: [{ t: '5 Random Forest models', d: 'one per condition, returns a risk probability', tags: ['scikit-learn', 'Joblib'], hl: true }] },
+    { l: 'results', n: [{ t: 'risk dashboard', d: 'charts + metrics', tags: ['Framer Motion'] }, { t: 'clinical PDF report', tags: ['jsPDF'] }] }
+  ] },
+  transcriber: { stages: [
+    { l: 'input', n: [{ t: 'live microphone', d: 'or an uploaded audio / video file' }] },
+    { l: 'stream', n: [{ t: 'WebSocket', d: 'audio sent in small chunks', tags: ['WebSockets'], hl: true }] },
+    { l: 'server', n: [{ t: 'Node.js API', d: 'sessions, auth, metadata', tags: ['Node.js', 'REST'] }] },
+    { l: 'speech', n: [{ t: 'Deepgram STT', d: 'words + timings back in real time', tags: ['Deepgram'] }] },
+    { l: 'you', n: [{ t: 'live transcript', d: 'synced highlighting + playback', tags: ['React'] }] }
+  ] },
+  farmhub: { stages: [
+    { l: 'people', n: [{ t: 'farmers', d: 'list produce' }, { t: 'buyers', d: 'browse + order' }] },
+    { l: 'app', n: [{ t: 'FarmHub app', d: 'one codebase, Android + iOS', tags: ['Flutter', 'Dart'], hl: true }] },
+    { l: 'backend', n: [{ t: 'sign in', tags: ['Firebase Auth'] }, { t: 'inventory + orders', d: 'real-time updates', tags: ['Firestore'] }, { t: 'product photos', d: 'optimized delivery', tags: ['Cloudinary', 'Firebase Storage'] }] }
+  ] },
+  'heat-exchanger-ai': { stages: [
+    { l: 'data', n: [{ t: 'design parameters', d: 'geometry + operating conditions', tags: ['Pandas', 'NumPy'] }] },
+    { l: 'models', n: [{ t: 'Linear Regression', tags: ['scikit-learn'] }, { t: 'SVM', tags: ['scikit-learn'] }, { t: 'XGBoost ★ best', tags: ['XGBoost'], hl: true }] },
+    { l: 'predicts', n: [{ t: 'thermal outputs', d: 'NTU · effectiveness · heat duty · U · stress' }] },
+    { l: 'checks', n: [{ t: 'R² · MAE · RMSE', d: 'model evaluation' }, { t: 'MATLAB simulations', d: 'cross-validated results', tags: ['MATLAB'] }] }
+  ] }
+};
+const ARROW = '<svg class="arrow" viewBox="0 0 40 24" aria-hidden="true"><path d="M3 13 C12 9, 22 15, 33 11 M33 11 l-7 -5 M33 11 l-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function archHTML(p) {
+  const a = ARCH[p.id];
+  const flow = a.stages.map((st, i) => `<div class="stage"><span class="st-l">${esc(st.l)}</span>${st.n.map((n, k) => `<div class="node${n.hl ? ' hl' : ''}" style="--r:${((i + k) % 2 ? .8 : -.8)}deg"><b>${esc(n.t)}</b>${n.d ? `<small>${esc(n.d)}</small>` : ''}${n.tags ? `<span class="tags">${n.tags.map(t => `<i>${esc(t)}</i>`).join('')}</span>` : ''}</div>`).join('')}</div>`).join(ARROW);
+  return `<div class="arch"><p class="arch-k">architecture.svg</p><h2 class="arch-h">how ${esc(p.name)} works</h2>${a.wrap ? `<div class="bound"><span class="bound-l">${esc(a.wrap)}</span><div class="flow">${flow}</div></div>` : `<div class="flow">${flow}</div>`}</div>`;
+}
+const FILES = [['README.md', 'md'], ['architecture.svg', 'sketch']];
+const val = (v, ph) => v ? esc(v) : `<span class="ph">${ph}</span>`;
+// "see it work" only shows once a project has a demo video or a live link
+const hasDemo = p => !!(p.media.video || p.demo);
+function readmeSource(p) {
+  const isML = p.id === 'heat-exchanger-ai';
+  const L = [
+    `# ${p.name}`, '',
+    `> ${p.one}`, '',
+    `**role:** ${p.role}  ·  **year:** ${p.year || '<placeholder>'}`, '',
+    '## the problem', '', p.problem, '',
+    '## what i built', '', ...p.built.map(b => `- ${b}`), '',
+    ...(isML || !hasDemo(p) ? [] : ['## see it work', '', p.media.video ? `![demo](${p.media.video})` : `[live demo](${p.demo})`, '']),
+    '## what i learned', '', ...(p.learned ? p.learned.split('\n') : ['<placeholder>']), '',
+    '## stack', '', Object.values(p.stack).flat().map(s => '`' + s + '`').join(' '), '',
+    ...(isML ? [] : ['## links', '', `- repo: ${p.repo || '<placeholder>'}`, ...(p.demo ? [`- live demo: ${p.demo}`] : [])])
+  ];
+  return L.map(l => {
+    let h = esc(l);
+    if (/^#/.test(l)) h = `<span class="h">${h}</span>`;
+    else if (/^&gt;/.test(h)) h = `<span class="c">${h}</span>`;
+    else if (/^!\[/.test(l)) h = `<span class="n">${h}</span>`;
+    else if (/^- /.test(l)) h = `<span class="k">-</span>${h.slice(1)}`;
+    h = h.replace(/\*\*(.+?)\*\*/g, '<span class="k">**$1**</span>').replace(/`([^`]+)`/g, '<span class="s">`$1`</span>').replace(/&lt;placeholder&gt;/g, '<span class="n">&lt;placeholder&gt;</span>');
+    return `<span class="l">${h || ' '}</span>`;
+  }).join('');
+}
+const slot = (title, spec, ratio = '16 / 10') => `<div class="slot" style="aspect-ratio:${ratio}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.8" fill="currentColor"/><path d="M4 17 l5 -5 l4 4 l3 -3 l4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><b>${esc(title)}</b><span>${esc(spec)}</span></div>`;
+function compareHTML(p) {
+  const m = p.media, real = m.sketch && m.final;
+  const isML = p.id === 'heat-exchanger-ai';
+  const leftLabel = isML ? 'process' : 'sketch';
+  const rightLabel = isML ? 'graph' : 'final';
+  const sk = real ? `<img src="${m.sketch}" alt="${esc(p.name)}: ${leftLabel}" loading="lazy">` : mockSVG(p.mock, true);
+  const fi = real ? `<img src="${m.final}" alt="${esc(p.name)}: ${rightLabel}" loading="lazy">` : mockSVG(p.mock, false);
+  return `<div class="compare" style="--pos:50%"><div class="lay sketch">${sk}</div><div class="lay final">${fi}</div><span class="handle"></span><span class="cap l">${leftLabel}</span><span class="cap r">${rightLabel}</span><input type="range" min="0" max="100" value="50" aria-label="Drag to compare the ${leftLabel} and the ${rightLabel}"></div>` +
+    (real ? '' : `<p class="slot-note">placeholder · add <b>${leftLabel}</b> + <b>${rightLabel}</b> at the same framing, 1600×1000</p>`);
+}
+function demoHTML(p) {
+  if (p.media.video) return `<video src="${p.media.video}"${p.media.final ? ` poster="${p.media.final}"` : ''} controls muted playsinline preload="metadata"></video>`;
+  if (p.demo) return `<a class="demo-card" href="${esc(p.demo)}" target="_blank" rel="noopener"><span class="demo-play" aria-hidden="true">▶</span><span><b>try the live demo</b><small>${esc(p.demo.replace(/^https?:\/\//, ''))}</small></span><span aria-hidden="true">↗</span></a>`;
+  return slot('demo video or live demo link', 'video: 10–20s mp4 · or a live url', '16 / 9');
+}
+function readmeHTML(p) {
+  const i = PROJECTS.indexOf(p), prev = PROJECTS[(i + PROJECTS.length - 1) % PROJECTS.length], next = PROJECTS[(i + 1) % PROJECTS.length];
+  const isML = p.id === 'heat-exchanger-ai';
+  const link = (href, label, cls) => href ? `<a class="btn${cls}" href="${esc(href)}" target="_blank" rel="noopener">${label} ↗</a>` : `<a class="btn${cls}" href="#" data-ph="${label}">${label} ↗</a>`;
+  const sliderLabel = isML ? 'process → graph' : 'sketch → final';
+  return `<article class="readme">
+    <div class="meta"><span>~/projects/${p.id}</span><span>${esc(p.kind)}</span></div>
+    <h1>${esc(p.name)}</h1><p class="one">${esc(p.one)}</p>
+    <dl class="facts-strip"><div><dt>role</dt><dd>${esc(p.role)}</dd></div><div><dt>year</dt><dd>${val(p.year, 'add')}</dd></div><div><dt>stack</dt><dd>${Object.values(p.stack).flat().length} tools</dd></div></dl>
+    <h2>${sliderLabel}</h2>${compareHTML(p)}
+    <h2>the problem</h2><p>${esc(p.problem)}</p>
+    <h2>what i built</h2><ul>${p.built.map(b => `<li>${esc(b)}</li>`).join('')}</ul>
+    ${isML || !hasDemo(p) ? '' : `<h2>see it work</h2>${demoHTML(p)}`}
+    <h2>what i learned</h2>${p.learned ? p.learned.split('\n').map(t => `<p>${esc(t)}</p>`).join('') : `<p class="todo-line"><span class="ph">add</span> one thing this project taught you</p>`}
+    <h2>stack</h2><ul class="stack">${Object.values(p.stack).flat().map(s => `<li>${esc(s)}</li>`).join('')}</ul>
+    ${isML ? '' : `<div class="links-row">${link(p.repo, 'view repo', '')}</div>`}
+    <nav class="pnav" aria-label="More projects"><button type="button" data-p="${prev.id}">← ${esc(prev.name)}</button><button type="button" data-p="${next.id}">${esc(next.name)} →</button></nav>
+  </article>`;
+}
+function wireCompare(root) {
+  root.querySelectorAll('.compare').forEach(c => {
+    const inp = $('input', c); inp.addEventListener('input', () => c.style.setProperty('--pos', inp.value + '%'));
+    if (!reduce && !c._demo) { c._demo = 1; c.animate ? (() => { let t0 = null; const step = t => { t0 ??= t; const k = (t - t0) / 1400; if (k > 1) { c.style.setProperty('--pos', '50%'); return; } const v = 50 - Math.sin(k * Math.PI) * 32; c.style.setProperty('--pos', v + '%'); inp.value = v; requestAnimationFrame(step); }; requestAnimationFrame(step); })() : 0; }
+  });
+  root.querySelectorAll('[data-ph]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); toast(a.dataset.ph + ' link coming soon'); }));
+}
+PANELS.projects = ({ project }) => {
+  const el = node(`<div class="ide" aria-label="Projects in a code editor">
+    <div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="path" id="idePath">~/sneka/projects</span></div>
+    <div class="ide-body">
+      <nav class="tree" aria-label="Project files"></nav>
+      <div class="editor">
+        <div class="chips-mobile" role="tablist" aria-label="Projects"></div>
+        <div class="tabs"></div>
+        <div class="view" tabindex="0"></div>
+      </div>
+    </div>
+    <div class="term">
+      <div class="term-bar"><span>terminal · zsh</span><button type="button" class="tog">hide</button></div>
+      <div class="term-out" aria-live="polite"></div>
+      <form class="term-in"><label for="termIn">sneka@desk:~/projects$</label><input id="termIn" autocomplete="off" spellcheck="false" placeholder="type help"></form>
+    </div>
+  </div>`);
+  const tree = $('.tree', el), tabs = $('.tabs', el), view = $('.view', el), chips = $('.chips-mobile', el), out = $('.term-out', el), pathEl = $('#idePath', el);
+  let cur = null, file = 'README.md', mode = 'preview', logT = [];
+  const term = $('.term', el);
+  if (matchMedia('(max-width:760px)').matches) { term.classList.add('min'); $('.tog', el).textContent = 'show'; }
+  $('.tog', el).addEventListener('click', () => { const m = term.classList.toggle('min'); $('.tog', el).textContent = m ? 'show' : 'hide'; });
+  const print = (h, cls = '') => { out.insertAdjacentHTML('beforeend', `<div class="${cls}">${h}</div>`); out.scrollTop = out.scrollHeight; };
+  const typeLog = lines => { logT.forEach(clearTimeout); logT = lines.map((l, i) => setTimeout(() => print(esc(l), /✓|ready|running|streaming|validated|best/.test(l) ? 'ok' : 'dim'), reduce ? 0 : 140 * (i + 1))); };
+  function renderTree() {
+    tree.innerHTML = `<div class="lbl">explorer</div><button type="button" data-w ${cur ? '' : 'aria-current="true"'}>${ICON.md}welcome.md</button>` + PROJECTS.map(p => `<button type="button" data-p="${p.id}">${ICON.folder}${p.id}/</button>` + (cur?.id === p.id ? FILES.map(([f, ic]) => `<button type="button" class="file" data-p="${p.id}" data-f="${f}" ${file === f ? 'aria-current="true"' : ''}>${ICON[ic]}${f}</button>`).join('') : '')).join('');
+    chips.innerHTML = `<button type="button" data-w ${cur ? '' : 'aria-current="true"'}>welcome</button>` + PROJECTS.map(p => `<button type="button" data-p="${p.id}" ${cur?.id === p.id ? 'aria-current="true"' : ''}>${p.name}</button>`).join('');
+  }
+  function renderTabs() {
+    if (!cur) { tabs.innerHTML = `<button type="button" aria-selected="true">welcome.md</button>`; return; }
+    tabs.innerHTML = FILES.map(([f]) => `<button type="button" role="tab" data-f="${f}" aria-selected="${file === f}">${f}</button>`).join('') + (file === 'README.md' ? `<span class="sp"></span><span class="mode"><button type="button" data-m="preview" aria-pressed="${mode === 'preview'}">preview</button><button type="button" data-m="source" aria-pressed="${mode === 'source'}">source</button></span>` : '');
+  }
+  function renderView() {
+    view.scrollTop = 0;
+    if (!cur) {
+      pathEl.textContent = '~/sneka/projects/welcome.md';
+      view.innerHTML = `<div class="welcome"><img class="me" src="img/avatar-think.webp" alt="" width="640" height="764"><h1>welcome to my editor 👋</h1><p class="hand">pick a project to open it.</p><p>or type <span class="pr">open shehealth</span> in the terminal below.</p><div class="grid">${PROJECTS.map(p => `<button type="button" data-p="${p.id}"><b>${p.name}</b><span>${esc(p.kind)}</span></button>`).join('')}</div><p class="dim">tip: every project has a README and an architecture diagram</p></div>`;
+      return;
+    }
+    pathEl.textContent = `~/sneka/projects/${cur.id}/${file}`;
+    if (file === 'README.md') view.innerHTML = mode === 'preview' ? readmeHTML(cur) : `<pre class="src">${readmeSource(cur)}</pre>`;
+    else view.innerHTML = archHTML(cur);
+    wireCompare(view);
+  }
+  const render = () => { renderTree(); renderTabs(); renderView(); };
+  function openProject(id, f = 'README.md', quiet) {
+    const p = PROJECTS.find(x => x.id === id); if (!p) return false;
+    const changed = cur?.id !== id; cur = p; file = f; mode = 'preview'; render();
+    if (changed && !quiet) { print(`<span class="pr">$</span> open ${p.id}`); typeLog(p.log); }
+    return true;
+  }
+  el.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b || !el.contains(b)) return;
+    if (b.hasAttribute('data-w')) { cur = null; render(); }
+    else if (b.dataset.p) openProject(b.dataset.p, b.dataset.f || (cur?.id === b.dataset.p && !b.dataset.f ? file : 'README.md'));
+    else if (b.dataset.f && cur) { file = b.dataset.f; renderTabs(); renderTree(); renderView(); }
+    else if (b.dataset.m) { mode = b.dataset.m; renderTabs(); renderView(); }
+  });
+  const CMDS = {
+    help: () => print(['commands:', '  ls                  list projects', '  open &lt;project&gt;      open a README', '  arch &lt;project&gt;      how it works', '  deploy &lt;project&gt;    ship it', '  whoami              about me', '  guestbook · contact  leave the editor', '  clear               clear the terminal'].join('\n'), 'dim'),
+    ls: () => print(PROJECTS.map(p => `<span class="n">${p.id}/</span>`).join('   ')),
+    open: a => openProject(a, 'README.md', true) ? typeLog(PROJECTS.find(p => p.id === a).log) : print(`no such project: ${esc(a || '')} · try <span class="pr">ls</span>`, 'warn'),
+    arch: a => openProject(a, 'architecture.svg', true) || print(`no such project: ${esc(a || '')}`, 'warn'),
+    deploy: a => { const p = PROJECTS.find(x => x.id === (a || cur?.id)); if (!p) return print('deploy what? try <span class="pr">deploy shehealth</span>', 'warn'); typeLog(['building ' + p.id + '…', '  ✓ lint', '  ✓ tests', '  ✓ build', '✓ shipped ' + p.id + ' 🚀']); },
+    whoami: () => print('sneka · AI engineer + designer · powered by lavender 💜\nthe full story is on the desk: try the glasses.'),
+    clear: () => { out.innerHTML = ''; },
+    guestbook: () => open('guestbook'), contact: () => open('contact'),
+    sudo: () => print('nice try 🙃', 'warn')
+  };
+  $('.term-in', el).addEventListener('submit', e => {
+    e.preventDefault(); const inp = $('#termIn', el); const v = inp.value.trim(); inp.value = ''; if (!v) return;
+    print(`<span class="pr">$</span> ${esc(v)}`);
+    const [c, ...rest] = v.split(/\s+/); const fn = CMDS[c.toLowerCase()];
+    fn ? fn(rest.join(' ').replace(/\/$/, '').toLowerCase()) : print(`command not found: ${esc(c)} · type <span class="pr">help</span>`, 'warn');
+  });
+  print('<span class="dim">welcome to sneka’s editor. type</span> <span class="pr">help</span> <span class="dim">to see commands.</span>');
+  if (project) openProject(project); else render();
+  el._cleanup = () => logT.forEach(clearTimeout);
+  return el;
+};
+
+/* ---------- db (guestbook + inbox) ---------- */
+let dbP = null, userP = null;
+const getDB = () => (dbP ??= (window.claude?.use ? window.claude.use('db') : Promise.resolve(null)).catch(() => null));
+const getUser = () => (userP ??= (window.claude?.use ? window.claude.use('user') : Promise.resolve(null)).catch(() => null));
+const ago = t => { const s = (Date.now() - t) / 1000; if (s < 60) return 'just now'; if (s < 3600) return Math.floor(s / 60) + 'm ago'; if (s < 86400) return Math.floor(s / 3600) + 'h ago'; return new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); };
+const COLORS = [['tea', '#dde5b6'], ['blush', '#f7b1b0'], ['papaya', '#feeac7'], ['sand', '#cad182'], ['olive', '#adc178']];
+const colorOf = k => (COLORS.find(c => c[0] === k) || COLORS[0])[1];
+// firebase: each visitor signs in anonymously, so they can remove their own notes and nobody else's
+let fbP = null;
+const getFB = () => (fbP ??= (async () => {
+  if (!FIREBASE_CONFIG) return null;
+  const v = 'https://www.gstatic.com/firebasejs/10.12.2/';
+  const [{ initializeApp }, auth, fs] = await Promise.all([import(v + 'firebase-app.js'), import(v + 'firebase-auth.js'), import(v + 'firebase-firestore.js')]);
+  const app = initializeApp(FIREBASE_CONFIG);
+  let uid = null;
+  try { uid = (await auth.signInAnonymously(auth.getAuth(app))).user.uid; } catch (e) { console.warn('guestbook sign-in failed', e); }
+  return { db: fs.getFirestore(app), fs, uid };
+})().catch(e => { console.warn('firebase failed to load', e); return null; }));
+
+PANELS.guestbook = () => {
+  const el = node(`<div class="gb" aria-labelledby="gbT">
+    <div class="head"><h2 class="p-head" id="gbT">the guestbook</h2><p class="p-sub">leave a note on my board. be nice, it's my desk.</p></div>
+    <div class="board" id="board">
+      <form class="note form" id="gbForm">
+        <label for="gbText" class="mono" style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ash)">your note</label>
+        <textarea id="gbText" maxlength="240" required placeholder="hi sneka! …"></textarea>
+        <input type="text" id="gbName" maxlength="40" placeholder="your name (optional)" aria-label="Your name, optional">
+        <div class="swatches" role="radiogroup" aria-label="Note colour">${COLORS.map(([k, c], i) => `<label title="${k}"><input type="radio" name="gbc" value="${k}" ${i === 0 ? 'checked' : ''} aria-label="${k}"><span style="--c:${c}"></span></label>`).join('')}</div>
+        <div class="form-row"><span class="count" id="gbCount">0/240</span><button class="btn" type="submit" id="gbSend">pin it 📌</button></div>
+        <p class="status" id="gbStatus" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>`);
+  const board = $('#board', el), form = $('#gbForm', el), status = $('#gbStatus', el), text = $('#gbText', el);
+  text.addEventListener('input', () => $('#gbCount', el).textContent = text.value.length + '/240');
+  // notes: [{ text, name, color, at, who, id }]; add / remove are set by whichever backend is available
+  let unsub = null, uid = null, owner = false, notes = [], add = null, remove = null;
+  const draw = () => {
+    board.querySelectorAll('.note:not(.form), .empty').forEach(n => n.remove());
+    const list = notes.filter(n => n && typeof n.text === 'string').sort((a, b) => (b.at || 0) - (a.at || 0));
+    if (!list.length) { board.insertAdjacentHTML('beforeend', `<p class="empty">no notes yet. be the first one on the board ✏️</p>`); return; }
+    board.insertAdjacentHTML('beforeend', list.map((n, k) => `<div class="note" style="--c:${colorOf(n.color)};--r:${((k * 37) % 7) - 3}deg"><p>${esc(n.text)}</p><div class="by"><span>— ${esc(n.name || 'a visitor')}</span><span>${ago(n.at || 0)}</span></div>${owner || n.who === uid ? `<button class="rm" type="button" data-who="${esc(n.who)}" data-at="${n.at}" data-id="${esc(n.id || '')}" aria-label="Remove this note">×</button>` : ''}</div>`).join(''));
+  };
+  board.addEventListener('click', async e => {
+    const b = e.target.closest('.rm'); if (!b || !remove) return;
+    try { await remove(b.dataset); toast('note removed'); }
+    catch { toast("couldn't remove that note"); }
+  });
+  const disable = msg => { form.querySelectorAll('textarea, input, button').forEach(n => n.disabled = true); status.textContent = msg; };
+  (async () => {
+    const fb = await getFB();
+    if (fb) {
+      const { db, fs } = fb, col = fs.collection(db, 'guestbook'); uid = fb.uid;
+      if (!uid) disable('you can read the board, but pinning notes isn’t working right now.');
+      unsub = fs.onSnapshot(fs.query(col, fs.orderBy('at', 'desc'), fs.limit(100)), s => {
+        notes = s.docs.map(d => { const n = d.data({ serverTimestamps: 'estimate' }); return { ...n, at: n.at?.toMillis?.() ?? Date.now(), who: n.uid, id: d.id }; });
+        draw();
+      }, () => { status.textContent = "the board couldn't load right now."; });
+      add = n => fs.addDoc(col, { ...n, uid, at: fs.serverTimestamp() });
+      remove = d => fs.deleteDoc(fs.doc(db, 'guestbook', d.id));
+      return;
+    }
+    const db = await getDB(), user = await getUser();
+    if (!db) { disable('the guestbook works when this page is opened on claude.ai while signed in.'); draw(); return; }
+    uid = user ? await user.id() : null; owner = user ? await user.isOwner() : false;
+    const canW = user ? await user.can('data.write') : null;
+    if (!uid || canW === false) disable('you can read the board, but this link doesn’t let you pin notes yet.');
+    unsub = db.collection('guestbook').onSnapshot(s => { notes = s.docs.flatMap(d => (d.data()?.notes || []).map(n => ({ ...n, who: d.id }))); draw(); }, () => { status.textContent = "the board couldn't load right now."; });
+    add = async n => { const ref = db.doc('guestbook/' + uid); const s = await ref.get(); await ref.set({ notes: [...(s.data()?.notes || []), { ...n, at: Date.now() }].slice(-10) }); };
+    remove = async d => { const ref = db.doc('guestbook/' + d.who); const s = await ref.get(); await ref.set({ notes: (s.data()?.notes || []).filter(n => String(n.at) !== d.at) }); };
+  })();
+  form.addEventListener('submit', async e => {
+    e.preventDefault(); if (!add || !uid) return;
+    const t = text.value.trim(); if (!t) return;
+    const btn = $('#gbSend', el); btn.disabled = true; status.textContent = 'pinning…';
+    try {
+      await add({ text: t.slice(0, 240), name: $('#gbName', el).value.trim().slice(0, 40), color: form.gbc.value });
+      text.value = ''; $('#gbCount', el).textContent = '0/240'; status.textContent = 'pinned! thank you 💛';
+    } catch (err) { status.textContent = /invalid_argument|permission/.test(err?.code || '') ? 'this link doesn’t let you pin notes.' : 'couldn’t pin that. try again in a moment.'; }
+    btn.disabled = false;
+  });
+  el._cleanup = () => unsub?.();
+  return el;
+};
+
+PANELS.contact = () => {
+  const el = node(`<div style="display:grid;justify-items:center;gap:16px;width:min(560px,100%)">
+    <form class="letter" id="ltr" aria-labelledby="ctT">
+      <h2 class="p-head" id="ctT">say hi</h2><p class="p-sub" style="margin-bottom:4px">write it down, fold it up, i'll get it.</p>
+      <div class="field"><label for="ctName">your name</label><input id="ctName" maxlength="60" required autocomplete="name" autofocus></div>
+      <div class="field"><label for="ctReach">how do i reach you? (email, linkedin…)</label><input id="ctReach" maxlength="120" required autocomplete="email"></div>
+      <div class="field"><label for="ctMsg">message</label><textarea id="ctMsg" maxlength="1000" required></textarea></div>
+      <input type="text" name="_gotcha" id="ctHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+      <div class="form-row" style="margin-top:12px"><span class="count" id="ctStatus" aria-live="polite"></span><button class="btn" type="submit" id="ctSend">fold &amp; send ✈</button></div>
+      <p class="mono" style="font-size:11px;color:var(--ash);margin:14px 0 0">or email <span style="user-select:all">${EMAIL}</span></p>
+      <div id="inboxBox"></div>
+    </form>
+  </div>`);
+  const form = $('#ltr', el), st = $('#ctStatus', el), btn = $('#ctSend', el);
+  let db = null, uid = null, unsub = null, canDB = false;
+  const mailMode = () => { if (!FORM_ENDPOINT && !canDB) { btn.textContent = 'fold & email ✈'; st.textContent = 'opens your email app, note ready to go.'; } };
+  mailMode();
+  (async () => {
+    db = await getDB(); const user = await getUser();
+    if (!db) return;
+    uid = user ? await user.id() : null;
+    const canW = user ? await user.can('data.write') : null;
+    canDB = !!uid && canW !== false;
+    if (canDB && !FORM_ENDPOINT) { btn.innerHTML = 'fold &amp; send ✈'; st.textContent = ''; }
+    if (user && await user.isOwner()) {
+      const box = $('#inboxBox', el);
+      unsub = db.collection('inbox').onSnapshot(s => {
+        const msgs = s.docs.flatMap(d => d.data()?.messages || []).filter(m => m && m.msg).sort((a, b) => (b.at || 0) - (a.at || 0));
+        box.innerHTML = `<div class="inbox"><h3>your inbox · ${msgs.length}</h3>${msgs.length ? msgs.map(m => `<div class="msg"><div class="from">${esc(m.name)} · ${esc(m.reach)} · ${ago(m.at || 0)}</div><p>${esc(m.msg)}</p></div>`).join('') : '<p class="hand" style="font-size:20px;margin:0">no planes have landed yet.</p>'}</div>`;
+      }, () => {});
+    }
+  })();
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const m = { name: $('#ctName', el).value.trim().slice(0, 60), reach: $('#ctReach', el).value.trim().slice(0, 120), msg: $('#ctMsg', el).value.trim().slice(0, 1000), at: Date.now() };
+    if (!m.name || !m.reach || !m.msg) return;
+    const landed = (h, p) => {
+      const done = () => { form.replaceWith(node(`<div class="sent"><img src="img/avatar-wow.webp" alt="" width="640" height="764"><h2 class="p-head" style="margin-top:8px">${h}</h2><p class="p-sub">${p}</p></div>`)); };
+      if (reduce) done(); else { form.classList.add('fly'); setTimeout(done, 1100); }
+    };
+    if (!FORM_ENDPOINT && !canDB) {
+      const body = `${m.msg}\n\n— ${m.name} (${m.reach})`;
+      location.href = `mailto:${EMAIL}?subject=${encodeURIComponent('hi from ' + m.name)}&body=${encodeURIComponent(body)}`;
+      landed('almost there ✉', 'your email app should have opened with the note inside. hit send there.');
+      return;
+    }
+    btn.disabled = true; st.textContent = 'folding…';
+    try {
+      if (FORM_ENDPOINT) {
+        if (!$('#ctHp', el).value) {
+          const r = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ name: m.name, reach: m.reach, message: m.msg, _subject: `portfolio: note from ${m.name}`, ...(/^\S+@\S+\.\S+$/.test(m.reach) ? { email: m.reach } : {}) }) });
+          if (!r.ok) throw new Error(r.status);
+        }
+      } else {
+        const ref = db.doc('inbox/' + uid); const s = await ref.get();
+        await ref.set({ messages: [...(s.data()?.messages || []), m].slice(-20) });
+      }
+      landed('it landed ✉', `thanks, ${esc(m.name)}. i'll write back soon.`);
+    } catch (err) { st.textContent = 'couldn’t send. try again, or use the email.'; btn.disabled = false; }
+  });
+  el._cleanup = () => unsub?.();
+  return el;
+};
+
+/* ---------- small panels ---------- */
+PANELS.about = () => node(`<div class="paper card-panel lace" aria-labelledby="abT"><div class="about">
+  <div class="pic"><span class="ltape" aria-hidden="true"></span><img src="img/sneka-photo.webp" alt="Sneka smiling outdoors in a yellow kurta with a floral dupatta" width="400" height="500"><p class="hand" style="margin:6px 0 0;text-align:center;font-size:20px">hi, that's me!</p></div>
+  <div><h2 class="p-head" id="abT">about me</h2><p class="p-sub">the non-resume version.</p>
+  <dl class="facts" style="margin-top:16px">
+    <dt>based in</dt><dd>Chennai, India</dd>
+    <dt>loves</dt><dd>bullet journaling, cute things, lace and anything a little whimsical</dd>
+    <dt>fav colour</dt><dd><span class="lav">lavender</span>. if it's lavender, i'm getting it.</dd>
+    <dt>speaks</dt><dd>English, Tamil, French (basic), German (basic)</dd>
+    <dt>works best</dt><dd>talking things through early, building with a team, and untangling the tricky bits</dd>
+  </dl></div></div></div>`);
+const SKILLS = [
+  ['AI / ML', '#d88180', 'Python, NumPy, Pandas, Matplotlib, scikit-learn, XGBoost, Random Forest, model training and evaluation'],
+  ['web & backend', '#adc178', 'React, TypeScript, Node.js, FastAPI, Flask, REST APIs, WebSockets, Streamlit, HTML, CSS'],
+  ['UI / UX', '#f7b1b0', 'Figma, Canva, wireframing and prototyping, user research and journey mapping, design systems and components'],
+  ['mobile', '#cad182', 'Flutter, Dart, Firebase (Auth, Firestore, Storage)'],
+  ['data & cloud', '#a98467', 'SQL, Firestore, Docker (basic), AWS (basic), Cloudinary'],
+  ['game dev / XR', '#b89a86', 'Unity, C#, XR Interaction Toolkit, OpenXR']
+];
+PANELS.skills = () => {
+  const el = node(`<div class="paper card-panel" aria-labelledby="skT"><h2 class="p-head" id="skT">pick a bead</h2><p class="p-sub">each colour is something i work with.</p>
+    <div class="cup">${SKILLS.map(([n, c], i) => `<button type="button" class="marker${i % 2 ? ' star' : ''}" aria-pressed="${i === 0}" data-i="${i}" style="--c:${c}" aria-label="${n}"><span class="hole"></span></button>`).join('')}</div>
+    <div class="skill-card" id="skCard" aria-live="polite"></div></div>`);
+  const show = i => { const [n, c, d] = SKILLS[i]; const card = $('#skCard', el); card.style.setProperty('--c', c); card.innerHTML = `<h3>${n}</h3><p style="margin:0;line-height:1.6">${d}</p>`; el.querySelectorAll('.marker').forEach(m => m.setAttribute('aria-pressed', m.dataset.i == i)); };
+  el.addEventListener('click', e => { const m = e.target.closest('.marker'); if (m) show(+m.dataset.i); });
+  el.addEventListener('mouseover', e => { const m = e.target.closest('.marker'); if (m) show(+m.dataset.i); });
+  show(0); return el;
+};
+PANELS.experience = () => node(`<div class="paper card-panel" aria-labelledby="exT"><h2 class="p-head" id="exT">where i've been</h2><p class="p-sub">the short version. the projects are in the laptop.</p>
+  <div class="timeline">
+    <div class="tl" style="--c:#cdb9e6;--r:.8deg"><span class="when">jul 2026 – present</span><h3>Intern</h3><span class="where">S Square Dot AI Engineering and Technology Private Limited</span></div>
+    <div class="tl" style="--c:#dde5b6;--r:-1deg"><span class="when">feb – jul 2026</span><h3>Junior AI Engineer Intern</h3><span class="where">Trusty Bytes · Chennai</span>
+      <ul><li>Built TechBuddy’s real-time audio/video transcription: Deepgram speech-to-text over a WebSocket streaming architecture.</li><li>Built React components for live transcript display with low-latency audio streaming.</li><li>Designed and maintained Node.js REST endpoints for transcription sessions, authentication and session metadata.</li><li>Worked with the product team to improve transcription accuracy and speaker diarization.</li></ul></div>
+    <div class="tl" style="--c:#f7b1b0;--r:1deg"><span class="when">nov 2022 – may 2026</span><h3>B.E. Computer Science &amp; Design Engineering</h3><span class="where">Rajalakshmi Engineering College</span></div>
+    <div class="tl" style="--c:#feeac7;--r:-.5deg"><span class="when">next</span><h3>your team?</h3><span class="where">open to AI engineer and designer roles</span></div>
+  </div></div>`);
+const TRACKS = [
+  ['Asalayavale', 'Jakes Bejoy'],
+  ['Radhimaa', 'Sai Abhyankkar'],
+  ['Pesamale', 'Siri Xander'],
+  ['Haareya', 'Sachin-Jigar'],
+  ['KALYANI (Remix)', 'ARJN & co.']
+];
+PANELS.playlist = () => {
+  const el = node(`<div class="paper card-panel" aria-labelledby="plT"><h2 class="p-head" id="plT">on repeat</h2><p class="p-sub">what's in my ears while i code.</p>
+    <svg class="cassette" viewBox="0 0 360 220" aria-hidden="true"><rect x="4" y="4" width="352" height="212" rx="16" fill="#6c584c"/><rect x="26" y="22" width="308" height="112" rx="8" fill="#feeac7"/><text x="180" y="52" text-anchor="middle" font-family="Caveat, cursive" font-size="26" font-weight="700" fill="#2e1f15">sneka's focus mix</text><rect x="86" y="68" width="188" height="56" rx="28" fill="#2e1f15"/><g class="reel"><circle cx="122" cy="96" r="20" fill="#f0ead2"/><path d="M122 80 v32 M106 96 h32" stroke="#6c584c" stroke-width="4"/></g><g class="reel"><circle cx="238" cy="96" r="20" fill="#f0ead2"/><path d="M238 80 v32 M222 96 h32" stroke="#6c584c" stroke-width="4"/></g><path d="M60 216 l20 -50 h200 l20 50" fill="#a98467"/><circle cx="110" cy="190" r="6" fill="#2e1f15"/><circle cx="250" cy="190" r="6" fill="#2e1f15"/></svg>
+    <div style="display:flex;justify-content:center"><button class="btn" type="button" id="plBtn" aria-pressed="false">▶ play the tape</button></div>
+    <ol class="tracks">${TRACKS.map(([t, a], i) => `<li><button type="button" data-t="${i}">${esc(t)} <small>${esc(a)}</small></button></li>`).join('')}</ol></div>`);
+  const btn = $('#plBtn', el), tape = $('.cassette', el), items = [...el.querySelectorAll('.tracks li')];
+  let cur = -1;
+  // each press of play moves the tape on to the next song; tapping a song plays that one
+  const play = i => {
+    cur = i; tape.classList.add('playing'); btn.setAttribute('aria-pressed', true); btn.textContent = '❚❚ pause';
+    items.forEach((li, k) => li.classList.toggle('now', k === i));
+    toast(`now playing: ${TRACKS[i][0]} · ${TRACKS[i][1]} 🎧`);
+  };
+  btn.addEventListener('click', () => {
+    if (tape.classList.contains('playing')) { tape.classList.remove('playing'); btn.setAttribute('aria-pressed', false); btn.textContent = '▶ play the tape'; return; }
+    play((cur + 1) % TRACKS.length);
+  });
+  el.querySelector('.tracks').addEventListener('click', e => { const b = e.target.closest('[data-t]'); if (b) play(+b.dataset.t); });
+  return el;
+};
+PANELS.fuel = () => node(`<div class="paper card-panel" aria-labelledby="fuT"><h2 class="p-head" id="fuT">this month</h2><p class="p-sub">what's on my plate right now.</p>
+  <ul class="fuel">
+    <li><b>building</b><span>my desk portfolio (you're in it)</span></li>
+    <li><b>learning</b><span>LLM agents + RAG</span></li>
+    <li><b>reading</b><span><i>Designing Data-Intensive Applications</i></span></li>
+    <li><b>playing</b><span>Loftia and Dressmaker</span></li>
+    <li><b>journaling</b><span>a new bullet journal spread, halloween themed 🎃</span></li>
+    <li><b>sipping</b><span>too much filter coffee ☕</span></li>
+    <li><b>next up</b><span>Chaos Engineering Simulator</span></li>
+  </ul></div>`);
+
+/* ---------- cursor sparkles (same trail as the links page; sits under open panels) ---------- */
+if (!reduce) {
+  const cv = $('#ink'), ctx = cv.getContext('2d'), dpr = Math.min(2, devicePixelRatio || 1);
+  const size = () => { cv.width = Math.round(innerWidth * dpr); cv.height = Math.round(innerHeight * dpr); };
+  size(); addEventListener('resize', size);
+  const SPARK = ['#cdb9e6', '#f1c86b', '#f7b1b0', '#fffaf0', '#dde5b6'], bits = [];
+  const rand = (a, b) => a + Math.random() * (b - a);
+  let raf = 0, prev = null;
+  const spawn = (x, y, burst) => {
+    const now = performance.now(), n = burst ? 7 : (Math.random() < .5 ? 1 : 2);
+    for (let i = 0; i < n; i++) bits.push({ x: x + rand(-8, 8), y: y + rand(-8, 8), born: now, life: rand(850, 1250), s: rand(4, burst ? 11 : 8.5), c: SPARK[(Math.random() * SPARK.length) | 0], vx: rand(-.3, .3) * (burst ? 4 : 1), vy: rand(-.1, .35) + (burst ? rand(-1.2, .4) : 0), rot: rand(0, .8), ph: rand(0, 6.3) });
+    if (bits.length > 140) bits.splice(0, bits.length - 140);
+  };
+  const star4 = (x, y, sz) => {
+    ctx.beginPath(); ctx.moveTo(x, y - sz);
+    ctx.quadraticCurveTo(x, y, x + sz, y); ctx.quadraticCurveTo(x, y, x, y + sz);
+    ctx.quadraticCurveTo(x, y, x - sz, y); ctx.quadraticCurveTo(x, y, x, y - sz); ctx.fill();
+  };
+  const draw = () => {
+    const now = performance.now();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
+    for (let i = bits.length - 1; i >= 0; i--) {
+      const q = bits[i], t = (now - q.born) / q.life;
+      if (t >= 1) { bits.splice(i, 1); continue; }
+      q.x += q.vx; q.y += q.vy; q.vy += .012; q.vx *= .98;
+      const grow = Math.sin(Math.PI * Math.min(1, t * 1.15)) ** .6;
+      ctx.globalAlpha = (1 - t * t) * (.7 + .3 * Math.sin(now / 45 + q.ph));
+      ctx.fillStyle = q.c; ctx.shadowColor = q.c; ctx.shadowBlur = 6;
+      ctx.save(); ctx.translate(q.x - scrollX, q.y - scrollY); ctx.rotate(q.rot); star4(0, 0, q.s * grow); ctx.restore();
+    }
+    ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+    raf = bits.length ? requestAnimationFrame(draw) : 0;
+  };
+  const kick = () => { if (!raf) raf = requestAnimationFrame(draw); };
+  addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch' || current) return;
+    const p = { x: e.clientX + scrollX, y: e.clientY + scrollY };
+    if (prev && Math.hypot(p.x - prev.x, p.y - prev.y) < 14) return;
+    prev = p; spawn(p.x, p.y, false); kick();
+  }, { passive: true });
+  // phones have no cursor: a small burst where you tap
+  addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'touch' || current) return;
+    spawn(e.clientX + scrollX, e.clientY + scrollY, true); kick();
+  }, { passive: true });
+}
+
+/* ---------- deep links ---------- */
+const H = location.hash.slice(1);
+if (PANELS[H]) setTimeout(() => open(H), 300);
+else if (PROJECTS.some(p => p.id === H)) setTimeout(() => open('projects', { project: H }), 300);
+})();
+</script>
+
+</body></html>
